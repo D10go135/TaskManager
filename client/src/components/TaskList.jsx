@@ -17,6 +17,18 @@ const TaskList = () => {
     };
     fetchTasks();
   }, []);
+  const handleDelete = async (taskId) => {
+    try {
+      await api.delete(`/tasks/${taskId}`);
+      setTasks(tasks.filter(task => task.id !== taskId));
+    } catch (error) {
+      console.error('Erro ao deletar tarefa:', error);
+    }
+  };
+
+  const handleEdit = (taskId) => {
+    navigate(`/tasks/${taskId}/edit`);
+  };
 
   const handleToggleComplete = async (taskId, completed) => {
     try {
@@ -44,10 +56,18 @@ const TaskList = () => {
               primary={task.title}
               secondary={`${task.subject} - ${new Date(task.dueDate).toLocaleDateString()}`}
             />
-            <IconButton edge="end" aria-label="edit">
+            <IconButton 
+              edge="end" 
+              aria-label="edit"
+              onClick={() => handleEdit(task.id)}
+              >
               <Edit />
             </IconButton>
-            <IconButton edge="end" aria-label="delete">
+            <IconButton 
+              edge="end" 
+              aria-label="delete"
+              onClick={() => handleDelete(task.id)}
+            >
               <Delete />
             </IconButton>
           </ListItem>
