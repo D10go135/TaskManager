@@ -15,15 +15,24 @@ const TaskItem = ({ task, onToggleComplete, onEdit, onDelete }) => {
     medium: 'warning',
     low: 'success'
   };
+  const handleEdit = () => {
+    onEdit(task.id);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm('Tem certeza que deseja excluir esta tarefa?')) {
+      onDelete(task.id);
+    }
+  };
 
   return (
     <ListItem
       secondaryAction={
         <>
-          <IconButton edge="end" onClick={() => onEdit(task.id)}>
+          <IconButton edge="end" onClick={handleEdit} aria-label="edit">
             <Edit />
           </IconButton>
-          <IconButton edge="end" onClick={() => onDelete(task.id)}>
+          <IconButton edge="end" onClick={handleDelete} aria-label="delete">
             <Delete />
           </IconButton>
         </>
